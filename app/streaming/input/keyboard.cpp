@@ -85,13 +85,16 @@ void SdlInputHandler::performSpecialKeyCombo(KeyCombo combo)
         SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
                     "Detected show mouse combo");
 
-        if (!SDL_GetRelativeMouseMode()) {
-            m_MouseCursorCapturedVisibilityState = !m_MouseCursorCapturedVisibilityState;
-            SDL_ShowCursor(m_MouseCursorCapturedVisibilityState);
+        if (SDL_GetRelativeMouseMode()) {
+            // Switch to absolute mouse mode so the native cursor can be shown
+            setCaptureActive(false);
+            m_AbsoluteMouseMode = true;
+            m_MouseCursorCapturedVisibilityState = SDL_ENABLE;
+            setCaptureActive(true);
         }
         else {
-            SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
-                        "Cursor can only be shown in remote desktop mouse mode");
+            m_MouseCursorCapturedVisibilityState = !m_MouseCursorCapturedVisibilityState;
+            SDL_ShowCursor(m_MouseCursorCapturedVisibilityState);
         }
         break;
 

@@ -1347,6 +1347,24 @@ Flickable {
                                   qsTr("NOTE: Due to a bug in GeForce Experience, this option may not work properly if your host PC has multiple monitors.")
                 }
 
+                CheckBox {
+                    id: showLocalCursorCheck
+                    hoverEnabled: true
+                    width: parent.width
+                    text: qsTr("Show native local mouse cursor")
+                    font.pointSize: 12
+                    checked: StreamingPreferences.showLocalCursor
+                    onCheckedChanged: {
+                        StreamingPreferences.showLocalCursor = checked
+                    }
+
+                    ToolTip.delay: 1000
+                    ToolTip.timeout: 10000
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Renders a native client-side cursor immediately to eliminate pointer delay (like Parsec). Automatically enables seamless mouse control.") + " " +
+                                  qsTr("You can toggle cursor visibility while streaming using Ctrl+Alt+Shift+C.")
+                }
+
                 Row {
                     spacing: 5
                     width: parent.width
